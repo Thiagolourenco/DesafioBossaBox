@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 
-import { ContainerL, Header, Conteudo, Tags } from "./style";
+import {
+  ContainerL,
+  Header,
+  Conteudo,
+  Tags,
+  ConteudoP,
+  ContainerModal
+} from "./style";
 import api from "../../services/api";
 
 class ContentList extends Component {
@@ -59,18 +66,23 @@ class ContentList extends Component {
                     </h5>
                   </div>
                   <div className="modal-body">
-                    <p>Are you sure want to remove hotel? </p>
-                    <button
-                      type="submit"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      Cancel
-                    </button>
-                    <button onClick={() => this.handleRemove(list.id)}>
-                      Yes, remove
-                    </button>
+                    <ConteudoP>Are you sure want to remove hotel? </ConteudoP>
+                    <ContainerModal>
+                      <button
+                        type="submit"
+                        className="fechar"
+                        data-dismiss="modal"
+                        // aria-label="Close"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => this.handleRemove(list.id)}
+                        className="remover"
+                      >
+                        Yes, remove
+                      </button>
+                    </ContainerModal>
                   </div>
                   <div className="modal-footer" />
                 </div>
