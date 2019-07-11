@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import {
   ContainerL,
@@ -31,10 +32,10 @@ class ContentList extends Component {
     api.delete(`/tools/${id}`);
   };
   render() {
-    const props = this.props;
+    const { data } = this.props;
     return (
       <div>
-        {props.list.map(list => (
+        {data.map(list => (
           <ContainerL key={list.id}>
             <Header>
               <a href={list.link}>{list.title}</a>
@@ -95,4 +96,8 @@ class ContentList extends Component {
   }
 }
 
-export default ContentList;
+const mapStateToProps = state => ({
+  data: state.listTools.data
+});
+
+export default connect(mapStateToProps)(ContentList);
