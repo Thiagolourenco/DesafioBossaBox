@@ -14,7 +14,8 @@ class Main extends Component {
       description: null,
       link: null,
       tags: null,
-      search: null
+      search: null,
+      check: false
     };
 
     this.openModal = this.openModal.bind(this);
@@ -56,13 +57,19 @@ class Main extends Component {
   handleSubmitSearch = async e => {
     e.preventDefault();
 
+    if (this.state.check) {
+      const { data } = await api.get(`/tools?tags_like=@`);
+
+      this.setState({
+        list: data
+      });
+    }
     const { data } = await api.get(`/tools?q=${this.state.search}`);
 
     this.setState({
       list: data
     });
   };
-
   render() {
     return (
       <Container>
@@ -70,8 +77,8 @@ class Main extends Component {
           <h1>VUTTR</h1>
           <h3>Very Useful Tools to Remember</h3>
         </Header>
-        <HeaderForm>
-          <form onSubmit={this.handleSubmitSearch}>
+        <HeaderForm onSubmit={this.handleSubmitSearch}>
+          <form onSubmit={() => {}}>
             <input
               type="text"
               className="search"
@@ -81,8 +88,9 @@ class Main extends Component {
             />
             <input
               type="checkbox"
-              onChange={e => this.setState({ check: e.target.value })}
-            />{" "}
+              defaultChecked={this.state.check}
+              onChange={() => this.setState({ check: !this.state.check })}
+            />
             <p>Search in tags only</p>
           </form>
           <button
@@ -93,6 +101,7 @@ class Main extends Component {
             <i className="fa fa-plus" /> ADD
           </button>
         </HeaderForm>
+
         <div
           className="modal fade"
           id="modal"
