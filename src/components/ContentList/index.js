@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import { Creators as ListToolsActions } from "../../store/ducks/listTools";
 import {
   ContainerL,
   Header,
@@ -21,6 +23,11 @@ class ContentList extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  componentDidMount() {
+    this.props.getToolsRequest();
+  }
+
   openModal() {
     this.setState({ modalOpen: true });
   }
@@ -30,26 +37,28 @@ class ContentList extends Component {
 
   handleRemove = id => {
     api.delete(`/tools/${id}`);
+    // console.log(id);
   };
   render() {
-    const props = this.props;
+    const { listTools } = this.props;
     return (
       <div>
-        {props.list.map(list => (
+        {listTools.data.map(list => (
           <ContainerL key={list.id}>
             <Header>
               <a href={list.link}>{list.title}</a>
               <button
-                onClick={this.openModal}
-                data-toggle="modal"
-                data-target="#modalRemove"
+                // onClick={this.openModal}
+                // data-toggle="modal"
+                // data-target="#modalRemove"
+                onClick={() => this.handleRemove(list.id)}
               >
                 <i className="fa fa-remove" />
                 Remove
               </button>
             </Header>
             <Conteudo>{list.description}</Conteudo>
-            <Tags>{list.tags[0]}</Tags>
+            <Tags>{list.tags}</Tags>
             <div
               className="modal fade"
               id="modalRemove"
@@ -96,8 +105,14 @@ class ContentList extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   data: state.listTools.data
-// });
+const mapStateToProps = state => ({
+  listTools: state.listTools
+});
 
-export default ContentList;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(ListToolsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentList);

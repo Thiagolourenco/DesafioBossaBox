@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
-import listTools from "./list";
+
+import listTools from "./listTools";
 
 export default combineReducers({
   listTools

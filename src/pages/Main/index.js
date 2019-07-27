@@ -13,7 +13,7 @@ class Main extends Component {
       title: null,
       description: null,
       link: null,
-      tags: null,
+      tags: [],
       search: null,
       check: false
     };
@@ -70,6 +70,7 @@ class Main extends Component {
       list: data
     });
   };
+
   render() {
     return (
       <Container>
