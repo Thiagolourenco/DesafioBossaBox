@@ -57,13 +57,6 @@ class Main extends Component {
   handleSubmitSearch = async e => {
     e.preventDefault();
 
-    if (this.state.check) {
-      const { data } = await api.get(`/tools?tags_like=@`);
-
-      this.setState({
-        list: data
-      });
-    }
     const { data } = await api.get(`/tools?q=${this.state.search}`);
 
     this.setState({
@@ -79,7 +72,7 @@ class Main extends Component {
           <h3>Very Useful Tools to Remember</h3>
         </Header>
         <HeaderForm onSubmit={this.handleSubmitSearch}>
-          <form onSubmit={() => {}}>
+          <form>
             <input
               type="text"
               className="search"
@@ -90,6 +83,7 @@ class Main extends Component {
             <input
               type="checkbox"
               defaultChecked={this.state.check}
+              className="checkbox"
               onChange={() => this.setState({ check: !this.state.check })}
             />
             <p>Search in tags only</p>
@@ -174,4 +168,5 @@ class Main extends Component {
     );
   }
 }
+
 export default Main;

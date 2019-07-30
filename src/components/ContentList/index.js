@@ -1,103 +1,93 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import Modal from "react-modal";
 
-import { Creators as ListToolsActions } from "../../store/ducks/listTools";
 import {
   ContainerL,
   Header,
   Conteudo,
   Tags,
-  ConteudoP,
-  ContainerModal
+  ButtonFechar,
+  ButtonRemover,
+  ModalTitle
 } from "./style";
 import api from "../../services/api";
 
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    width: "35%",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)"
+  }
+};
+
 class ContentList extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.state = {
-      modalOpen: false
+      modalIsOpen: false
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getToolsRequest();
+  openModal() {
+    this.setState({ modalIsOpen: true });
   }
 
-  openModal() {
-    this.setState({ modalOpen: true });
-  }
   closeModal() {
-    this.setState({ modalOpen: false });
+    this.setState({ modalIsOpen: false });
   }
 
   handleRemove = id => {
     api.delete(`/tools/${id}`);
-    // console.log(id);
   };
+
   render() {
-    const { listTools } = this.props;
+    const props = this.props;
     return (
       <div>
-        {listTools.data.map(list => (
+        {props.list.map(list => (
           <ContainerL key={list.id}>
             <Header>
               <a href={list.link}>{list.title}</a>
-              <button
-                // onClick={this.openModal}
-                // data-toggle="modal"
-                // data-target="#modalRemove"
-                onClick={() => this.handleRemove(list.id)}
-              >
+              <button onClick={this.openModal}>
                 <i className="fa fa-remove" />
                 Remove
               </button>
             </Header>
             <Conteudo>{list.description}</Conteudo>
             <Tags>{list.tags}</Tags>
-            <div
-              className="modal fade"
-              id="modalRemove"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="modalLabel"
-              aria-hidden="true"
+            <Modal
+              isOpen={this.state.modalIsOpen}
+              onRequestClose={this.closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
             >
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="modalLabel">
-                      <i className="fa fa-remove" />
-                      Remover Tools
-                    </h5>
-                  </div>
-                  <div className="modal-body">
-                    <ConteudoP>Are you sure want to remove hotel? </ConteudoP>
-                    <ContainerModal>
-                      <button
-                        type="submit"
-                        className="fechar"
-                        data-dismiss="modal"
-                        // aria-label="Close"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={() => this.handleRemove(list.id)}
-                        className="remover"
-                      >
-                        Yes, remove
-                      </button>
-                    </ContainerModal>
-                  </div>
-                  <div className="modal-footer" />
-                </div>
-              </div>
-            </div>
+              <ModalTitle ref={subtitle => (this.subtitle = subtitle)}>
+                <i className="fa fa-remove" />
+                Remove Tool
+              </ModalTitle>
+              <p>
+                Are you sure you want to remove <strong>hotel ?</strong>
+              </p>
+              <form>
+                <ButtonFechar
+                  className="fechar"
+                  onClick={() => this.closeModal(false)}
+                >
+                  Cancelar
+                </ButtonFechar>
+                <ButtonRemover onClick={() => this.handleRemove(list.id)}>
+                  Remover
+                </ButtonRemover>
+              </form>
+            </Modal>
           </ContainerL>
         ))}
       </div>
@@ -105,14 +95,4 @@ class ContentList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  listTools: state.listTools
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(ListToolsActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContentList);
+export default ContentList;

@@ -40,6 +40,7 @@ export const HeaderForm = styled.div`
       border-radius: 3px;
       margin: 0 10px;
     }
+
     p {
       color: #fff;
       margin-top: 14px;

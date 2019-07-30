@@ -43,43 +43,36 @@ export const Tags = styled.p`
   font-weight: bold;
 `;
 
-export const ConteudoP = styled.p`
+export const ButtonFechar = styled.button`
   font-size: 18px;
-  font-weight: bold;
-  text-align: center;
+  width: 100px;
+  height: 40px;
+  background: #cc4c4c;
+  color: #fff;
+  border: 0px;
+  border-radius: 3px;
+  margin: 0 10px;
+  margin-left: 190px;
+
+  &:hover {
+    opacity: 0.8px;
+  }
+`;
+export const ButtonRemover = styled.button`
+  font-size: 18px;
+  width: 30%;
+  color: #fff;
+  height: 40px;
+  background: #2f55cc;
+  border: 0px;
+  border-radius: 3px;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
-export const ContainerModal = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .fechar {
-    font-size: 18px;
-    width: 100px;
-    height: 40px;
-    background: #cc4c4c;
-    border: 0px;
-    border-radius: 3px;
-    margin: 0 10px;
-    /* font-weight: bold; */
-  }
-
-  .fechar:hover {
-    opacity: 0.8;
-  }
-
-  .remover {
-    font-size: 18px;
-    width: 30%;
-    height: 40px;
-    background: #2f55cc;
-    border: 0px;
-    border-radius: 3px;
-    /* font-weight: bold; */
-  }
-
-  .remover:hover {
-    opacity: 0.8;
-  }
+export const ModalTitle = styled.h2`
+  font-size: 18px;
+  font-weight: bold;
 `;
